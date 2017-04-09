@@ -26,7 +26,7 @@ export class AppComponent {
           this.firebaseAuthService.email = auth.auth.email;
           this.isLoggedIn = true;
           this.router.navigate(['']);
-          console.log(auth);
+          //console.log(auth);
 
           if (this.isLoggedIn) {
             this.firebaseAuthService.af.database
