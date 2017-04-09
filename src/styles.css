@@ -11,3 +11,11 @@
 .thumbnailImage{
     max-height: 200px;
 }
+
+#userInfo{
+    margin-top: 8px;
+}
+
+#userName{
+    margin-right: 15px;
+}
