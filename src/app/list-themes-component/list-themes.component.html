@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1>All Themes</h1>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-primary pull-right" (click)="newThemeModal.show()">Add new theme</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div *ngIf="themes" class="list-group">
+                <div class="list-group" *ngFor="let theme of themes">
+                    <a [routerLink]="['/single-theme',theme.id]" class="list-group-item">
+                        <h4 class="list-group-item-heading">{{theme.name}} <span class="badge pull-right">{{theme.links.length}}</span></h4>
+                        <p class="list-group-item-text">{{theme.description}}</p>
+                        <hr>
+                        <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Add a new theme to collect links</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="newThemeModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="themeName" class="col-sm-2 control-label">Theme Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" [(ngModel)]="newTheme.name" (ngModelChange)="themeNameChanged(newTheme.name)" class="form-control" id="themeName" name="themeName" placeholder="Theme Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords" class="col-sm-2 control-label">Keywords</label>
+                        <div class="col-sm-10">
+                            <input type="text" [(ngModel)]="newTheme.keywordsString" (ngModelChange)="keywordStringChanged(newTheme.keywordsString)" class="form-control"
+                                id="keywords" name="keywords" placeholder="Keywords (seperated with ;)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords" class="col-sm-2 control-label"></label>
+                        <div class="col-lg-10">
+                            <span class="keywordTag label label-default" *ngFor="let keyword of newTheme.keywords">{{keyword}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" [(ngModel)]="newTheme.description" id="description" name="description" placeholder="Description"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && addNewTheme(newTheme);formIsValid && newThemeModal.hide();">Add theme</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

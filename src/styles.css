@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+.active{
+    background-color: #337ab7 !important;
+    color: white !important;
+}
+
+.keywordTag{
+    margin-right: 5px;
+}
+
+.thumbnailImage{
+    max-height: 200px;
+}

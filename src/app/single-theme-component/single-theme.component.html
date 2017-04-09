@@ -1,0 +1,23 @@
+<div class="container" *ngIf="currentTheme">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>{{currentTheme.name}}</h1>
+            <p>{{currentTheme.description}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="thumbnail" *ngFor="let link of currentTheme.links">
+                <img src="{{link.pictureLink}}" alt="" class="thumbnailImage">
+                <div class="caption">
+                    <h3>{{link.name}}</h3>
+                    <h4>von {{link.author}}</h4>
+                    <hr>
+                    <p>{{link.comment}}</p>
+                    <a href="http://{{link.link}}" target="_blank">{{link.link}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
