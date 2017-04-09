@@ -23,7 +23,7 @@ export class ListThemesComponent implements OnInit {
     constructor(private themeService: ThemesService, private firebaseAuthService: FirebaseAuthService) { }
 
     ngOnInit() {
-        this.themeService.getThemes().then(_themes => this.themes = _themes
+        this.themeService.getThemes().then(_themes => this.themes = _themes);
     }
 
     addNewTheme(newtheme: Theme): void {
