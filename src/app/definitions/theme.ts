@@ -6,4 +6,5 @@ export class Theme {
     links: Link[];
     description: string;
     id: string;
+    author:string;
 }

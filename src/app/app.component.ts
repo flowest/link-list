@@ -31,7 +31,11 @@ export class AppComponent {
           if (this.isLoggedIn) {
             this.firebaseAuthService.af.database
               .list('/registeredUsers/' + auth.auth.uid)
-              .subscribe(user => { this.userName = user[1].$value; console.log("loggid in as: " + this.userName) });
+              .subscribe(user => {
+                this.userName = user[1].$value;
+                this.firebaseAuthService.displayName = this.userName;
+                console.log("loggid in as: " + this.userName);
+              });
 
           }
         }
