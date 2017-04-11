@@ -1,22 +1,74 @@
 <div class="container" *ngIf="currentTheme">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-8">
             <h1>{{currentTheme.name}}</h1>
             <p>{{currentTheme.description}}</p>
+            <i>von {{currentTheme.author}}</i>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-primary pull-right" (click)="newLinkModal.show()">Add link</button>
         </div>
     </div>
     <hr>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" *ngIf="currentTheme.links">
             <div class="thumbnail" *ngFor="let link of currentTheme.links">
-                <img src="{{link.pictureLink}}" alt="" class="thumbnailImage">
+                <img src="{{link.pictureURL}}" alt="" class="thumbnailImage">
                 <div class="caption">
                     <h3>{{link.name}}</h3>
                     <h4>von {{link.author}}</h4>
                     <hr>
                     <p>{{link.comment}}</p>
-                    <a href="http://{{link.link}}" target="_blank">{{link.link}}</a>
+                    <a href="{{link.linkURL}}" target="_blank">{{link.linkURL}}</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Link Modal -->
+<div class="modal fade" bsModal #newLinkModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newLinkModal" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" *ngIf="currentTheme">Add a new link to {{currentTheme.name}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="newLinkModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="linkName" class="col-sm-4 control-label">Link Name*</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="newLink.name" (ngModelChange)="linkFormChanged(newLink.name, newLink.linkURL)" class="form-control"
+                                id="linkName" name="linkName" placeholder="Link Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="col-sm-4 control-label">Link*</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="newLink.linkURL" (ngModelChange)="linkFormChanged(newLink.name, newLink.linkURL)" class="form-control"
+                                id="link" name="link" placeholder="Link URL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pictureLink" class="col-sm-4 control-label">Add a link to a picture</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="newLink.pictureLink" class="form-control" id="keywords" name="pictureLink" placeholder="Picture URL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="col-sm-4 control-label">Comment</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" [(ngModel)]="newLink.comment" id="comment" name="comment" placeholder="Add a comment" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && newLinkModal.hide();formIsValid && addNewLink(newLink);">Add theme</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

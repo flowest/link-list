@@ -1,5 +1,5 @@
 export class Link{
-    link:string;
+    linkURL:string;
     pictureLink: string;
     comment: string;
     name:string;

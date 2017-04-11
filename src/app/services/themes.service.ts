@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Theme } from "../definitions/theme";
+import { Link } from "../definitions/link";
 import { THEMES } from "./mocks/mock-themes";
 
 import { FirebaseAuthService } from "./firebase-auth.service"
@@ -25,5 +26,14 @@ export class ThemesService {
 
     getThemesFirebase(): Promise<Theme[]> {
         return this.firebaseAuthService.af.database.list('/themes').map(themes => { return themes }).toPromise();
+    }
+
+    getThemeByIdFirebase(id: string): Promise<Theme> {
+        return new Promise(resolve => {
+
+            this.firebaseAuthService.af.database.object('/themes/' + id).subscribe(theme => {
+                resolve(theme);
+            });
+        });
     }
 }

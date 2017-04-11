@@ -12,8 +12,13 @@
             <div *ngIf="themes" class="list-group">
                 <div class="list-group" *ngFor="let theme of themes">
                     <a [routerLink]="['/single-theme',theme.id]" class="list-group-item">
-                        <h4 class="list-group-item-heading">{{theme.name}} <span class="badge pull-right">{{theme.links.length}}</span></h4>
+                        <h4 class="list-group-item-heading">{{theme.name}}
+                            <span class="badge pull-right" *ngIf="!theme.links">0</span>
+                            <span class="badge pull-right" *ngIf="theme.links">{{theme.links.length}}</span>
+                        </h4>
                         <p class="list-group-item-text">{{theme.description}}</p>
+                        <br>
+                        <i>von {{theme.author}}</i>
                         <hr>
                         <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
                     </a>
@@ -22,8 +27,8 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+<!-- Theme Modal -->
+<div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newThemeModal"
     aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -36,7 +41,7 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="themeName" class="col-sm-2 control-label">Theme Name</label>
+                        <label for="themeName" class="col-sm-2 control-label">Theme Name*</label>
                         <div class="col-sm-10">
                             <input type="text" [(ngModel)]="newTheme.name" (ngModelChange)="themeNameChanged(newTheme.name)" class="form-control" id="themeName"
                                 name="themeName" placeholder="Theme Name">

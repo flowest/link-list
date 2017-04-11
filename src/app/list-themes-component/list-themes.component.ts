@@ -37,8 +37,8 @@ export class ListThemesComponent implements OnInit {
         newtheme.author = this.firebaseAuthService.displayName;
         newtheme.links = [];
         newtheme.id = (this.numberOfThemes + 1).toString();
-        newtheme.links = "";
-        this.firebaseAuthService.af.database.object('/themes/' + newtheme.name).update(newtheme).catch(error => { console.log(error) });
+        //newtheme.links = [{0:" "}];
+        this.firebaseAuthService.af.database.object('/themes/' + newtheme.id).update(newtheme).catch(error => { console.log(error) });
         this.clearInputfields();
     }
 
