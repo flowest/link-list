@@ -18,20 +18,20 @@
                         </h4>
                         <p class="list-group-item-text">{{theme.description}}</p>
                         <br>
-                        <i>von {{theme.authorID == this.firebaseAuthService.uid ? "dir" : theme.author}}</i>
+                        <i>from {{theme.authorID == this.firebaseAuthService.uid ? "you" : theme.author}}</i>
                         <hr>
                         <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
                     </a>
                     <div class="edit-buttons-container" *ngIf="theme.authorID == this.firebaseAuthService.uid">
                         <button type="button" class="btn btn-danger pull-right" (click)="deleteTheme(theme.$key,theme.name)">delete theme</button>
-                        <button type="button" class="btn btn-warning pull-right" (click)="console.log(theme)">edit theme</button>
+                        <button type="button" class="btn btn-warning pull-right" (click)="editUpdateTheme(theme.$key,theme);updateThemeModal.show()">edit theme</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Theme Modal -->
+<!-- New Theme Modal -->
 <div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newThemeModal" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -72,7 +72,57 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && newThemeModal.hide();formIsValid && addNewTheme(newTheme);">Add theme</button>
+                            <button type="submit" class="btn btn-primary pull-right" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && newThemeModal.hide();formIsValid && addNewTheme(newTheme);">Add theme</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- update Theme Modal -->
+<div class="modal fade" bsModal #updateThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="updateThemeModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Update theme</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="updateThemeModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="updateThemeName" class="col-sm-2 control-label">Theme Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" [(ngModel)]="updatedTheme.name" (ngModelChange)="updateThemeNameChanged(updatedTheme.name)" class="form-control" id="updateThemeName" name="updateThemeName" placeholder="Theme Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateKeywords" class="col-sm-2 control-label">Keywords</label>
+                        <div class="col-sm-10">
+                            <input type="text" [(ngModel)]="updateKeywordsString" (ngModelChange)="updateKeywordStringChanged(updateKeywordsString)" class="form-control" id="updateKeywords" name="updateKeywords" placeholder="Keywords (seperated with ;)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords" class="col-sm-2 control-label"></label>
+                        <div class="col-lg-10">
+                            <span class="keywordTag label label-default" *ngFor="let keyword of updatedTheme.keywords">{{keyword}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDescription" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" [(ngModel)]="updatedTheme.description" id="updateDescription" name="updateDescription" placeholder="Description"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary pull-right" [ngClass]="{'disabled' : !updateFormIsValid}" (click)="updateFormIsValid && updateTheme(updatedTheme); updateFormIsValid && updateThemeModal.hide();">Update theme</button>
                         </div>
                     </div>
                 </form>

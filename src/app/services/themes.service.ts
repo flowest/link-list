@@ -41,4 +41,10 @@ export class ThemesService {
             .catch(error => console.log(error))
             .then(success => console.log("success"));
     }
+
+    updateThemeFirebase(themeID: string, theme: Theme) {
+        this.firebaseAuthService.af.database.list('/themes').update(themeID, theme)
+            .catch(error => console.log(error))
+            .then(_ => console.log("success"));
+    }
 }

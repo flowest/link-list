@@ -20,8 +20,22 @@ export class ListThemesComponent implements OnInit {
         links: [],
         authorID: ""
     };
+    updatedTheme: Theme = {
+        name: "",
+        description: "",
+        keywords: [],
+        author: "",
+        links: [],
+        authorID: ""
+    };
     keywordsString: string = "";
+    updateKeywordsString: string = "";
+
     formIsValid: boolean = false;
+    updateFormIsValid: boolean = true;
+
+    updatedThemeID: string = "";
+
     numberOfThemes: number;
 
     constructor(private themeService: ThemesService,
@@ -45,10 +59,30 @@ export class ListThemesComponent implements OnInit {
         this.clearInputfields();
     }
 
-    deleteTheme(themeID: string, themeName:string) {
+    deleteTheme(themeID: string, themeName: string) {
         if (confirm("Delete theme " + themeName + "?")) {
             this.themeService.deleteThemeFirebase(themeID);
         }
+    }
+
+    editUpdateTheme(themeID: string, theme: Theme) {
+        theme.keywords.forEach(keyword => {
+            this.updateKeywordsString += keyword + "; "
+        });
+
+        this.updatedTheme = new Theme();
+        this.updatedTheme.name = theme.name;
+        this.updatedTheme.description = theme.description;
+        this.updatedTheme.links = theme.links;
+        this.updatedTheme.author = theme.author;
+        this.updatedTheme.authorID = theme.authorID;
+        this.updatedTheme.keywords = theme.keywords;
+        this.updatedThemeID = themeID;
+    }
+
+    updateTheme(theme: Theme) {
+        this.themeService.updateThemeFirebase(this.updatedThemeID, theme);
+        this.updateKeywordsString = "";
     }
 
     themeNameChanged(themeName: string) {
@@ -60,9 +94,23 @@ export class ListThemesComponent implements OnInit {
         }
     }
 
+    updateThemeNameChanged(themeName: string) {
+        if (themeName != "") {
+            this.updateFormIsValid = true;
+        }
+        else {
+            this.updateFormIsValid = false;
+        }
+    }
+
     keywordStringChanged(keywordsString: string) {
         keywordsString = keywordsString.replace(/\s/g, '');
-        this.newTheme.keywords = keywordsString.split(';');
+        this.newTheme.keywords = keywordsString.split(';').filter(keyword => keyword != "");
+    }
+
+    updateKeywordStringChanged(keywordsString: string) {
+        keywordsString = keywordsString.replace(/\s/g, '');
+        this.updatedTheme.keywords = keywordsString.split(';').filter(keyword => keyword != "");
     }
 
     private clearInputfields() {
