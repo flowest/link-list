@@ -10,26 +10,29 @@
     <div class="row">
         <div class="col-lg-12">
             <div *ngIf="themes" class="list-group">
-                <div class="list-group" *ngFor="let theme of themes">
-                    <a [routerLink]="['/single-theme',theme.id]" class="list-group-item">
+                <div class="list-group" *ngFor="let theme of themes" class="card-item">
+                    <a [routerLink]="['/single-theme',theme.$key]" class="list-group-item">
                         <h4 class="list-group-item-heading">{{theme.name}}
                             <span class="badge pull-right" *ngIf="!theme.links">0</span>
                             <span class="badge pull-right" *ngIf="theme.links">{{theme.links.length}}</span>
                         </h4>
                         <p class="list-group-item-text">{{theme.description}}</p>
                         <br>
-                        <i>von {{theme.author}}</i>
+                        <i>von {{theme.authorID == this.firebaseAuthService.uid ? "dir" : theme.author}}</i>
                         <hr>
                         <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
                     </a>
+                    <div class="edit-buttons-container" *ngIf="theme.authorID == this.firebaseAuthService.uid">
+                        <button type="button" class="btn btn-danger pull-right" (click)="deleteTheme(theme.$key,theme.name)">delete theme</button>
+                        <button type="button" class="btn btn-warning pull-right" (click)="console.log(theme)">edit theme</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Theme Modal -->
-<div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newThemeModal"
-    aria-hidden="true">
+<div class="modal fade" bsModal #newThemeModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newThemeModal" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">

@@ -19,3 +19,22 @@
 #userName{
     margin-right: 15px;
 }
+
+.edit-buttons-container{
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    display: none;
+}
+
+.card-item{
+    margin-bottom: 15px;
+}
+
+.card-item:hover .edit-buttons-container{
+    display: block;
+}
+
+.edit-buttons-container button{
+    margin-left: 10px;
+}

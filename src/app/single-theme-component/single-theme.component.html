@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-lg-12" *ngIf="currentTheme.links">
             <div class="thumbnail" *ngFor="let link of currentTheme.links">
-                <img src="{{link.pictureURL}}" alt="" class="thumbnailImage">
+                <img src="{{link.pictureLink}}" alt="" class="thumbnailImage">
                 <div class="caption">
                     <h3>{{link.name}}</h3>
                     <h4>von {{link.author}}</h4>

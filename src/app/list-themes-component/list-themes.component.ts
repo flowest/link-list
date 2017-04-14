@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemesService } from "../services/themes.service";
 import { FirebaseAuthService } from "../services/firebase-auth.service";
+import { ConverterService } from "../services/conerter.service";
 import { Theme } from "../definitions/theme";
 
 @Component({
@@ -16,30 +17,38 @@ export class ListThemesComponent implements OnInit {
         description: "",
         keywords: [],
         author: "",
-        id: "",
         links: [],
+        authorID: ""
     };
     keywordsString: string = "";
     formIsValid: boolean = false;
     numberOfThemes: number;
 
-    constructor(private themeService: ThemesService, private firebaseAuthService: FirebaseAuthService) { }
+    constructor(private themeService: ThemesService,
+        private firebaseAuthService: FirebaseAuthService,
+        private converterService: ConverterService) { }
 
     ngOnInit() {
-        //this.themeService.getThemes().then(_themes => this.themes = _themes);
-        this.firebaseAuthService.af.database.list('/themes').subscribe(themes => {
+        this.themeService.getThemesFirebase().subscribe(themes => {
             this.themes = themes;
-            this.numberOfThemes = themes.length;
+            themes.forEach(theme => {
+                theme.links = theme.links ? this.converterService.generateArray(theme.links) : [];
+            });
         });
     }
 
     addNewTheme(newtheme: Theme): void {
         newtheme.author = this.firebaseAuthService.displayName;
+        newtheme.authorID = this.firebaseAuthService.uid;
         newtheme.links = [];
-        newtheme.id = (this.numberOfThemes + 1).toString();
-        //newtheme.links = [{0:" "}];
-        this.firebaseAuthService.af.database.object('/themes/' + newtheme.id).update(newtheme).catch(error => { console.log(error) });
+        this.themeService.addNewThemeFirebase(newtheme);
         this.clearInputfields();
+    }
+
+    deleteTheme(themeID: string, themeName:string) {
+        if (confirm("Delete theme " + themeName + "?")) {
+            this.themeService.deleteThemeFirebase(themeID);
+        }
     }
 
     themeNameChanged(themeName: string) {
@@ -62,8 +71,8 @@ export class ListThemesComponent implements OnInit {
             description: "",
             keywords: [],
             author: "",
-            id: "",
             links: [],
+            authorID: ""
         };
         this.keywordsString = "";
         this.formIsValid = false;

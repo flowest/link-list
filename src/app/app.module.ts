@@ -13,7 +13,9 @@ import { LoginPageComponent } from "./login-page-component/login-page.component"
 import { RegistrationComponent } from "./registration-component/registration.component";
 
 import { ThemesService } from "./services/themes.service";
+import { LinksService } from "./services/links.service";
 import { FirebaseAuthService } from "./services/firebase-auth.service";
+import { ConverterService } from "./services/conerter.service";
 
 import { ModalModule } from "ngx-bootstrap/modal";
 
@@ -45,7 +47,7 @@ export const firebaseConfig = {
     AppRoutingModule,
     ModalModule.forRoot(),
   ],
-  providers: [ThemesService,FirebaseAuthService],
+  providers: [ThemesService, FirebaseAuthService, LinksService, ConverterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

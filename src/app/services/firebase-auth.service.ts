@@ -5,6 +5,7 @@ import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 export class FirebaseAuthService {
     public displayName: string;
     public email: string;
+    public uid:string;
 
     constructor(public af: AngularFire) { }
 
@@ -20,6 +21,7 @@ export class FirebaseAuthService {
         return this.af.database.object('registeredUsers/' + uid).set({
             name: name,
             email: email,
+            uid: uid,
         });
     }
 

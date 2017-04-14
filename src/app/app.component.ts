@@ -26,7 +26,6 @@ export class AppComponent {
           this.firebaseAuthService.email = auth.auth.email;
           this.isLoggedIn = true;
           this.router.navigate(['']);
-          //console.log(auth);
 
           if (this.isLoggedIn) {
             this.firebaseAuthService.af.database
@@ -34,7 +33,9 @@ export class AppComponent {
               .subscribe(user => {
                 this.userName = user[1].$value;
                 this.firebaseAuthService.displayName = this.userName;
+                this.firebaseAuthService.uid = auth.auth.uid;
                 console.log("loggid in as: " + this.userName);
+                console.log(this.firebaseAuthService.uid);
               });
 
           }
