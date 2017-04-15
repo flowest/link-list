@@ -46,7 +46,7 @@ export class ListThemesComponent implements OnInit {
         this.themeService.getThemesFirebase().subscribe(themes => {
             this.themes = themes;
             themes.forEach(theme => {
-                theme.links = theme.links ? this.converterService.generateArray(theme.links) : [];
+                theme.links = theme.links ? this.converterService.generateArrayFromFirebaseObject(theme.links) : [];
             });
         });
     }

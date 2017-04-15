@@ -34,8 +34,7 @@ export class AppComponent {
                 this.userName = user[1].$value;
                 this.firebaseAuthService.displayName = this.userName;
                 this.firebaseAuthService.uid = auth.auth.uid;
-                console.log("loggid in as: " + this.userName);
-                console.log(this.firebaseAuthService.uid);
+                console.log("logged in as: " + this.userName);
               });
 
           }
@@ -47,5 +46,6 @@ export class AppComponent {
   logout() {
     this.firebaseAuthService.logout();
     this.isLoggedIn = false;
+    this.router.navigate(['/login'])
   }
 }

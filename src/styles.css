@@ -21,9 +21,6 @@
 }
 
 .edit-buttons-container{
-    position: absolute;
-    right: 30px;
-    bottom: 30px;
     display: none;
 }
 
@@ -37,4 +34,12 @@
 
 .edit-buttons-container button{
     margin-left: 10px;
+}
+
+.buttons-wrapper{
+    min-height: 35px;
+}
+
+.add-new-button{
+    margin-top: 15px;
 }

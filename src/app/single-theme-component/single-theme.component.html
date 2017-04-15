@@ -6,26 +6,36 @@
             <i>von {{currentTheme.author}}</i>
         </div>
         <div class="col-lg-4">
-            <button type="button" class="btn btn-primary pull-right" (click)="newLinkModal.show()">Add link</button>
+            <button type="button" class="btn btn-primary pull-right add-new-button" (click)="newLinkModal.show()">Add link</button>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col-lg-12" *ngIf="currentTheme.links">
-            <div class="thumbnail" *ngFor="let link of currentTheme.links">
+            <div class="thumbnail card-item" *ngFor="let link of currentTheme.links">
                 <img src="{{link.pictureLink}}" alt="" class="thumbnailImage">
                 <div class="caption">
                     <h3>{{link.name}}</h3>
-                    <h4>von {{link.author}}</h4>
+                    <h4>from {{link.authorID == this.firebaseAuthService.uid ? "you" : link.author}}</h4>
                     <hr>
                     <p>{{link.comment}}</p>
-                    <a href="{{link.linkURL}}" target="_blank">{{link.linkURL}}</a>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a href="{{link.linkURL}}" target="_blank">{{link.linkURL}}</a>
+                        </div>
+                        <div class="col-lg-6 buttons-wrapper">
+                            <span class="edit-buttons-container" *ngIf="link.authorID == this.firebaseAuthService.uid">
+                                <button type="button" class="btn btn-danger pull-right" (click)="deleteLink(link.uid,link.name)">delete link</button>
+                                <button type="button" class="btn btn-warning pull-right" (click)="editLink(link.uid,link);editLinkModal.show();">edit theme</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Link Modal -->
+<!-- New Link Modal -->
 <div class="modal fade" bsModal #newLinkModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="newLinkModal" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -65,7 +75,57 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && newLinkModal.hide();formIsValid && addNewLink(newLink);">Add theme</button>
+                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !formIsValid}" (click)="formIsValid && newLinkModal.hide();formIsValid && addNewLink(newLink);">Add link</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- edit Link Modal -->
+<div class="modal fade" bsModal #editLinkModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="editLinkModal" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Update link</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="editLinkModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="linkName" class="col-sm-4 control-label">Link Name*</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="updatedLink.name" (ngModelChange)="editLinkFormChanged(updatedLink.name, updatedLink.linkURL)" class="form-control"
+                                id="linkName" name="linkName" placeholder="Link Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="col-sm-4 control-label">Link*</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="updatedLink.linkURL" (ngModelChange)="editLinkFormChanged(updatedLink.name, updatedLink.linkURL)" class="form-control"
+                                id="link" name="link" placeholder="Link URL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pictureLink" class="col-sm-4 control-label">Add a link to a picture</label>
+                        <div class="col-sm-8">
+                            <input type="text" [(ngModel)]="updatedLink.pictureLink" class="form-control" id="keywords" name="pictureLink" placeholder="Picture URL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="col-sm-4 control-label">Comment</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" [(ngModel)]="updatedLink.comment" id="comment" name="comment" placeholder="Add a comment" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !updateFormIsValid}" (click)="updateFormIsValid && editLinkModal.hide();updateFormIsValid && updateLink(updatedLink);">Add link</button>
                         </div>
                     </div>
                 </form>

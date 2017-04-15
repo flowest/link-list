@@ -4,7 +4,7 @@
             <h1>All Themes</h1>
         </div>
         <div class="col-lg-4">
-            <button type="button" class="btn btn-primary pull-right" (click)="newThemeModal.show()">Add new theme</button>
+            <button type="button" class="btn btn-primary pull-right add-new-button" (click)="newThemeModal.show()">Add new theme</button>
         </div>
     </div>
     <div class="row">
@@ -20,12 +20,18 @@
                         <br>
                         <i>from {{theme.authorID == this.firebaseAuthService.uid ? "you" : theme.author}}</i>
                         <hr>
-                        <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span *ngFor="let keyword of theme.keywords" class="keywordTag label label-default">{{keyword}}</span>
+                            </div>
+                            <div class="col-lg-6 buttons-wrapper">
+                                <span class="edit-buttons-container" *ngIf="theme.authorID == this.firebaseAuthService.uid">
+                                    <button type="button" class="btn btn-danger pull-right" (click)="deleteTheme(theme.$key,theme.name)">delete theme</button>
+                                    <button type="button" class="btn btn-warning pull-right" (click)="editUpdateTheme(theme.$key,theme);updateThemeModal.show()">edit theme</button>
+                                </span>
+                            </div>
+                        </div>
                     </a>
-                    <div class="edit-buttons-container" *ngIf="theme.authorID == this.firebaseAuthService.uid">
-                        <button type="button" class="btn btn-danger pull-right" (click)="deleteTheme(theme.$key,theme.name)">delete theme</button>
-                        <button type="button" class="btn btn-warning pull-right" (click)="editUpdateTheme(theme.$key,theme);updateThemeModal.show()">edit theme</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -98,13 +104,15 @@
                     <div class="form-group">
                         <label for="updateThemeName" class="col-sm-2 control-label">Theme Name*</label>
                         <div class="col-sm-10">
-                            <input type="text" [(ngModel)]="updatedTheme.name" (ngModelChange)="updateThemeNameChanged(updatedTheme.name)" class="form-control" id="updateThemeName" name="updateThemeName" placeholder="Theme Name">
+                            <input type="text" [(ngModel)]="updatedTheme.name" (ngModelChange)="updateThemeNameChanged(updatedTheme.name)" class="form-control"
+                                id="updateThemeName" name="updateThemeName" placeholder="Theme Name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="updateKeywords" class="col-sm-2 control-label">Keywords</label>
                         <div class="col-sm-10">
-                            <input type="text" [(ngModel)]="updateKeywordsString" (ngModelChange)="updateKeywordStringChanged(updateKeywordsString)" class="form-control" id="updateKeywords" name="updateKeywords" placeholder="Keywords (seperated with ;)">
+                            <input type="text" [(ngModel)]="updateKeywordsString" (ngModelChange)="updateKeywordStringChanged(updateKeywordsString)"
+                                class="form-control" id="updateKeywords" name="updateKeywords" placeholder="Keywords (seperated with ;)">
                         </div>
                     </div>
                     <div class="form-group">

@@ -20,4 +20,16 @@ export class LinksService {
     addLinkToThemeFirebase(link: Link, themeID: string) {
         this.firebaseAuthService.af.database.list('/themes/' + themeID + '/links').push(link).catch(error => console.log(error));
     }
+
+    deleteLinkFirebase(linkID: string, themeID: string) {
+        this.firebaseAuthService.af.database.list('/themes/' + themeID + '/links').remove(linkID)
+            .catch(error => console.log(error))
+            .then(_ => console.log("removed link"))
+    }
+
+    updateLinkFirebase(linkID: string, link: Link, themeID: string) {
+        this.firebaseAuthService.af.database.list('/themes/' + themeID + '/links').update(linkID, link)
+            .catch(error => console.log(error))
+            .then(_ => console.log("updated Link"))
+    }
 }
