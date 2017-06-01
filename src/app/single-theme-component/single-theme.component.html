@@ -26,7 +26,7 @@
                         <div class="col-lg-6 buttons-wrapper">
                             <span class="edit-buttons-container" *ngIf="link.authorID == this.firebaseAuthService.uid">
                                 <button type="button" class="btn btn-danger pull-right" (click)="deleteLink(link.uid,link.name)">delete link</button>
-                                <button type="button" class="btn btn-warning pull-right" (click)="editLink(link.uid,link);editLinkModal.show();">edit theme</button>
+                                <button type="button" class="btn btn-warning pull-right" (click)="editLink(link.uid,link);editLinkModal.show();">edit link</button>
                             </span>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !updateFormIsValid}" (click)="updateFormIsValid && editLinkModal.hide();updateFormIsValid && updateLink(updatedLink);">Add link</button>
+                            <button type="submit" class="btn btn-primary" [ngClass]="{'disabled' : !updateFormIsValid}" (click)="updateFormIsValid && editLinkModal.hide();updateFormIsValid && updateLink(updatedLink);">Edit link</button>
                         </div>
                     </div>
                 </form>
